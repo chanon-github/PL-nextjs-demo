@@ -1,4 +1,4 @@
-# 🚀 Next.js + TypeScript + API Generator Boilerplate
+# 🚀 Next.js + TypeScript + API Generator
 
 ## 🛠️ Project Overview
 This is a **starter template** for Next.js projects with:
