@@ -8,6 +8,7 @@ This is a **starter template** for Next.js projects with:
 - **Plop.js** for scaffolding components
 - **Redux** for global state management
 - **Tailwind CSS + Antd** for css framework
+- **pnpm** for package management
 
 ## 📦 Installation
 ```bash
