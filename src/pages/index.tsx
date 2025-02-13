@@ -49,11 +49,7 @@ const LoginListContainer: NextPageWithLayout<LoginContainerProps> = ( props: Log
     });
 
     useEffect(() => {
-      // if(cookies.accessToken || cookies.refreshToken){
-      //   Router.push('/landing-page');
-      //   return 
-
-      // }
+      Router.push('/vehicle-group');
     },[])
   /** Functionality section */
 

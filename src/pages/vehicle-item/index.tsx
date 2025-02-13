@@ -68,8 +68,6 @@ const VehicleItemListContainer: NextPageWithLayout<VehicleItemContainerProps> = 
   const fetchGetDataLocation = useApi(vehicleLocationApi,vehicleLocationApi.apiMasterVehicleLocationGetGet)
 
   const fetchGetDataVehicleItem = useApi(vehicleItemApi,vehicleItemApi.apiMasterVehicleItemGetGet)
-  const fetchSaveData = useApi(vehicleItemApi,vehicleItemApi.apiMasterVehicleItemSavePost)
-  const fetchRemoveData = useApi(vehicleItemApi,vehicleItemApi.apiMasterVehicleItemDeleteDelete)
   const { selectedRowKeysList, setSelectedRowKeysList , handleRowSelectionOne, handleRowSelectionAll } = useRowSelection();
 
   const Router = useRouter();
@@ -316,66 +314,7 @@ const VehicleItemListContainer: NextPageWithLayout<VehicleItemContainerProps> = 
     }
 
     const onClickRemove = () => {
-        console.log("selectedValue",selectedRowKeysList)
-        setModalVisible(true);
-        if(selectedRowKeysList.length>0){
       
-          setModalProps({
-            visible:false,
-            title: 'ยืนยันลบข้อมูล '+selectedRowKeysList.length+" รายการ",
-            icon: <DeleteOutlined style={{ fontSize: '36px' }} />,
-            confirmText: 'ลบ',
-            hoverConfirmColor:'#f71d3f',
-            cancelText: 'ยกเลิก',
-            confirmButtonColor: 'bg-pl-red',
-          
-            iconBackgroundColor: 'bg-pl-red',
-            onCancel:undefined,
-            onConfirm: () => {
-              // Save logic for edit
-              setIsLoadingPage(true);
-              const numberSelectedRowKeysList = selectedRowKeysList.map(key => Number(key));
-              const paramForRemove = {
-                "id": numberSelectedRowKeysList,
-                "tenantCode": tenantCode,
-                "branchCode": branchCode
-              }
-              fetchRemoveData.fetch({carrentalDeleteInput:paramForRemove})
-              .then(()=>{
-
-                getData({
-                  currentPage: page,
-                  currentPageSize: pageSize,
-               
-                });
-               
-
-              }).finally(()=>{
-                  setIsLoadingPage(false);
-                  setVisible(false); // Close the modal after submission
-                  form.resetFields(); // Reset form fields
-                  setModalVisible(false); // Close the confirmation modal
-                  setSelectedRowKeysList([]);
-              })
-
-            },
-          });
-        }else{
-          setModalProps({
-            visible:true,
-            title: "กรุณาเลือกรายการที่ต้องการลบ",
-            icon: <InfoOutlined style={{ fontSize: '36px' }} />,
-            cancelText: 'ปิด',
-            iconBackgroundColor: 'bg-pl-yellow',
-            onConfirm:undefined,
-            onCancel:undefined,
-            confirmText: 'ลบ',
-            hoverConfirmColor:'#f71d3f'
-          });
-
-        }
-        
-        
     }
 
     const onClikToView = (param: {id: number}) => {
@@ -428,101 +367,6 @@ const VehicleItemListContainer: NextPageWithLayout<VehicleItemContainerProps> = 
     };
     const onSaveFormModal = (): void => {
       
-      form
-        .validateFields()
-        .then((values) => {
-
-          
-          console.log('Form values:', values);
-          console.log('saveMode:',saveMode)
-          const id = dataIdForEdit
-          const vehiclePortId = values.carPort ? Number(values.carPort) : undefined;
-          const vehicleLocationId = values.carLocation ? Number(values.carLocation) : undefined;
-          const modelCode = values.carModel ? values.carModel.toString()  : undefined
-          const paramForSave = {
-            "id": id,
-            "status": values.status,
-            "tenantCode": tenantCode,
-            "branchCode": branchCode,
-            "licensePlate": values.licensePlate,
-            "chassisNo": values.carChassisNo,
-            "vehiclePortId": vehiclePortId,
-            "vehicleLocationId": vehicleLocationId,
-            "vehicleMasterId": values.masterVehicle,
-
-          }
-
-          // "id": 0,
-          // "vehicleMasterId": 0,
-          // "licensePlate": "string",
-          // "chassisNo": "string",
-          // "vehiclePortId": 0,
-          // "vehicleLocationId": 0,
-          // "status": "string",
-          // "tenantCode": "string",
-          // "branchCode": "string"
-
-          if(saveMode === "ADD"){
-
-         
-            
-            setIsLoadingPage(true)
-          fetchSaveData.fetch({vehicleItemInput :paramForSave}).then(()=>{
-
-                getData({
-                  currentPage: page,
-                  currentPageSize: pageSize,
-                });
-               
-              }).finally(()=>{
-
-                setIsLoadingPage(false)
-                setVisible(false); // Close the modal after submission
-                form.resetFields(); // Reset form fields
-
-              })
-
-
-          }else if(saveMode === "EDIT"){
-        
-            setModalVisible(true);
-            setModalProps({
-              visible:true,
-              title: 'ยืนยันแก้ไขข้อมูล',
-              icon: <EditOutlined style={{ fontSize: '36px' }} />,
-              confirmText: 'แก้ไข',
-              cancelText: 'ยกเลิก',
-              confirmButtonColor: 'bg-pl-yellow',
-              iconBackgroundColor: 'bg-yellow-500',
-              onConfirm: () => {
-                // Save logic for edit
-                setIsLoadingPage(true);
-                
-                fetchSaveData.fetch({vehicleItemInput :paramForSave}).then(() => {
-                    getData({
-                      currentPage: page,
-                      currentPageSize: pageSize,
-                
-                    });
-                   
-                  })
-                  .finally(() => {
-                    setIsLoadingPage(false);
-                    setVisible(false); // Close the modal after submission
-                    form.resetFields(); // Reset form fields
-                    setModalVisible(false); // Close the confirmation modal
-                  });
-              },
-            });
-          }
-
-        })
-        .catch((info:string) => {
-          console.log('Validation Failed:', info);
-        }).finally(()=>{
-          console.log('Success Save');
-          
-        });
     };
     const onHandleTableChange= (
       pagination: TablePaginationConfig,

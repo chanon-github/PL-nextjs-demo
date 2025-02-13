@@ -34,16 +34,6 @@ import {
 import type { NextPageWithLayout } from '@/pages/_app';
 import useApi from '@/hooks/api/use-api';
 import useRowSelection from '@/hooks/table/useRowSelection';
-
-import { 
-  carBrandApi, 
-  colorApi, 
-  vehicleModelApi, 
-  vehicleTypeApi  , 
-  engineTypeApi,
-  fuelTypeApi,gearApi, 
-  vehicleMasterApi,
-  fileApi} from '@/services/central-api/index';
 import {    VehicleMasterSearchOutput} from '@/services/central-api/generated';
 import { CustomButton } from '@/components/common/button/button';
 import { CustomLoading } from '@/components/common/loading/loading';
@@ -65,19 +55,6 @@ import { notify } from '@/utils/functions/notification';
 const MasterVehicleListContainer: NextPageWithLayout<MasterVehicleContainerProps> = ( props: MasterVehicleContainerProps ): ReactElement => {
   /** Hook section */
 
-  // const fetchGetDataCarBrand = useApi(carBrandApi,carBrandApi.apiMasterCarBrandGetGet)
-  // const fetchGetDataCarModel = useApi(vehicleModelApi,vehicleModelApi.apiMasterVehicleModelGetGet)
-  // const fetchGetDataColor = useApi(colorApi,colorApi.apiMasterColorGetGet)
-  // const fetchGetVehicleTypeData = useApi(vehicleTypeApi,vehicleTypeApi.apiMasterVehicleTypeGetGet)
-
-  // const fetchGetVehicleGearData = useApi(gearApi,gearApi.apiMasterGearGetGet)
-  // const fetchGetVehicleEngineData = useApi(engineTypeApi,engineTypeApi.apiMasterEngineTypeGetGet)
-  // const fetchGetVehicleFuelData = useApi(fuelTypeApi,fuelTypeApi.apiMasterFuelTypeGetGet)
-
-  // const fetchGetData= useApi(vehicleMasterApi,vehicleMasterApi.apiMasterVehicleMasterGetGet)
-  // const fetchSaveData = useApi(vehicleMasterApi,vehicleMasterApi.apiMasterVehicleMasterSavePost)
-  // const fetchRemoveData = useApi(vehicleMasterApi,vehicleMasterApi.apiMasterVehicleMasterDeleteDelete)
-  // const useApiFileUpload = useApi(fileApi, fileApi.apiFileUploadPost);
   const { selectedRowKeysList, setSelectedRowKeysList , handleRowSelectionOne, handleRowSelectionAll } = useRowSelection();
 
   const Router = useRouter();
@@ -125,58 +102,7 @@ const MasterVehicleListContainer: NextPageWithLayout<MasterVehicleContainerProps
 
   useEffect(()=>{
     
-    //--Get All Lookup Data --//
-
-    // fetchGetDataCarBrand.fetch({
-    //     pageIndex:1, 
-    //     pageSize:1000,
-    //     tenantCode:tenantCode,
-    //     branchCode:branchCode,          
-    // })
-
-    // fetchGetDataCarModel.fetch({
-    //   pageIndex:1, 
-    //   pageSize:1000,
-    //   tenantCode:tenantCode,
-    //   branchCode:branchCode,    
-    // })
   
-  
-  //   fetchGetDataColor.fetch({
-  //     pageIndex:1, 
-  //     pageSize:1000,
-  //     tenantCode:tenantCode,
-  //     branchCode:branchCode,          
-  // })
-
-  // fetchGetVehicleTypeData.fetch({
-  //     pageIndex:1, 
-  //     pageSize:1000,
-  //     tenantCode:tenantCode,
-  //     branchCode:branchCode,          
-  // })
-
-  // fetchGetVehicleGearData.fetch({
-  //     pageIndex:1, 
-  //     pageSize:1000,
-  //     tenantCode:tenantCode,
-  //     branchCode:branchCode,          
-  // })
-
-  // fetchGetVehicleEngineData.fetch({
-  //     pageIndex:1, 
-  //     pageSize:1000,
-  //     tenantCode:tenantCode,
-  //     branchCode:branchCode,          
-  // })
-
-  // fetchGetVehicleFuelData.fetch({
-  //   pageIndex:1, 
-  //   pageSize:1000,
-  //   tenantCode:tenantCode,
-  //   branchCode:branchCode,          
-  // })
-
   },[])
 
   useEffect(()=>{
@@ -200,17 +126,9 @@ const MasterVehicleListContainer: NextPageWithLayout<MasterVehicleContainerProps
     currentPageSize,
     sortOrder = "desc",
     sortField = "updateTimestamp",
-    keywordSearch,
-    status,
+  
     isLoadingTable = false,
-    chassisNo,
-    licensePlate,
-    brandCode,
-    modelCode,
-    colorCode,
-    year,
-    vehiclePortId,
-    vehicleLocationId,
+
   }: GetDataParams) => {
 
 
@@ -219,33 +137,6 @@ const MasterVehicleListContainer: NextPageWithLayout<MasterVehicleContainerProps
     }else{
       setIsLoadingPage(true);
     }
-  
-    // const res = await fetchGetData.fetch({
-
-    //     pageIndex: currentPage,
-    //     pageSize: currentPageSize,
-    //     keyword: keywordSearch,
-    //     status,
-    //     tenantCode,
-    //     branchCode,
-    //     sortField,
-    //     sortDirection: sortOrder,
-    //     brandCode,
-    //     modelCode,
-    //     colorCode,
-    //     year
-
-    // }).finally(()=>{
-    //   setIsLoadingPage(false)
-    //   setIsTableLoading(false)
-    // })
-
-    // if (res && res.items) {
-    //     setDataList(res.items);
-    //     setTotalData(res.totalItems);
-  
-    // }
-
 
 
   };
@@ -1211,45 +1102,7 @@ const renderModalForm = (props: MasterVehicleContentProps): ReactElement => {
                           onGetImageUrlUploaded={props.onGetImageUrlUploaded} 
                           imageUrl={props.imageUrl}
                           isRequired={true}
-                        />}
-                        {/* <Row gutter={[ 8, 8 ]}>
-                          <Col >
-                            <Form.Item
-                              label = "รูปภาพ"
-                              name = "imageUrl"
-                              rules={[{ required: true, message: 'กรุณาเลือก อัพโหลด รูปภาพ' }]}
-                            >
-                              <UploadFileComponent onGetImageUrlUploaded={props.onGetImageUrlUploaded} />
-                              <Upload.Dragger
-                                accept="image/*"
-                                maxCount={1}
-                                listType="picture"
-                                onChange={(info) => {props.onChangeUploadImg({file: info.file})}}
-                                showUploadList={false}
-                                style={{ width: "100%" }}
-                                // beforeUpload={() => (false)}
-                              >
-                                <p className="ant-upload-drag-icon">
-                                  <InboxOutlined />
-                                </p>
-                                <p className="ant-upload-text">อัพโหลดรูป</p>
-                               
-                              </Upload.Dragger>
-                            </Form.Item>
-                          </Col>
-                          {
-                            props.imageUrl && (
-                              <Col>
-                                <Form.Item
-                                    label = " "
-                                >
-                                  <Image  src={props.imageUrl} style={{ width: "2rem", height: "2rem", marginLeft: "1rem" }} /> 
-                                </Form.Item>
-                              
-                              </Col>
-                            )
-                          }           
-                        </Row>      */}
+                        />}               
                       </Col>
                       <Col xs={24} md={12}>
                         <Form.Item

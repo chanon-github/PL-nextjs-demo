@@ -68,8 +68,6 @@ const VehicleGroupCrudContainer: NextPageWithLayout<VehicleGroupCrudContainerPro
   const fetchGetDataMasterVehicle = useApi(vehicleMasterApi,vehicleMasterApi.apiMasterVehicleMasterGetGet)
 
   const fetchGetData = useApi(vehicleGroupApi,vehicleGroupApi.apiMasterVehicleGroupGetDetailGet)
-  const fetchSaveData = useApi(vehicleGroupApi,vehicleGroupApi.apiMasterVehicleGroupSaveDetailPost)
-  // const fetchRemoveData = useApi(vehicleProductApi,vehicleProductApi.)
   const { selectedRowKeysList, setSelectedRowKeysList , handleRowSelectionOne, handleRowSelectionAll } = useRowSelection();
   const Router = useRouter();
   const userData = useSelector((state: RootState) => state.user); // Access user data from Redux
@@ -402,47 +400,6 @@ const VehicleGroupCrudContainer: NextPageWithLayout<VehicleGroupCrudContainerPro
     };
 
     const onSaveFormModal = async () =>{
-        console.log("selectedRowKey",selectedRowKeysList)
-        console.log("groupId",groupId)
-        const numberSelectedRowKeysList = selectedRowKeysList.map(key => Number(key));
-
-        const paramForEdit = {
-          "groupId": groupId,
-          "masterId": numberSelectedRowKeysList,
-          "tenantCode": tenantCode,
-          "branchCode": branchCode
-        }
-
-        setModalProps({
-          visible:true,
-          title: 'ยืนยันแก้ไขข้อมูล',
-          icon: <EditOutlined style={{ fontSize: '36px' }} />,
-          confirmText: 'แก้ไข',
-          cancelText: 'ยกเลิก',
-          confirmButtonColor: 'bg-pl-yellow',
-          iconBackgroundColor: 'bg-yellow-500',
-          onConfirm: async () => {
-            // Save logic for edit
-            
-            setIsLoadingPage(true);
-            fetchSaveData.fetch({vehicleGroupDetailInput :paramForEdit}).then(() => {
-                  getData({
-                    currentPage: page,
-                    currentPageSize: pageSize,
-                    isLoadingTable:false
-                  });
-              })
-              .finally(() => {
-                // setIsLoadingPage(false);
-                setVisible(false); // Close the modal after submission
-                form.resetFields(); // Reset form fields
-                setIsLoadingPage(false);
-                setModalProps({
-                  visible:false,
-                });
-              });
-          },
-        });
 
     }
 
