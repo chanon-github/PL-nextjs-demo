@@ -1,0 +1,17 @@
+/**
+ *  Copyright (C) 2021, 2Smooth Digital Co. Ltd., all rights reserved
+ *  {{pascalCase name}}Create - Content
+ */
+
+import type { ReactElement } from 'react';
+
+import { {{pascalCase name}}CreateProps } from './{{kebabCase name}}-create.model';
+import { FormContent } from 'src/components/common/form/form.main';
+
+const {{pascalCase name}}CreateContent = <T extends unknown>(props: {{pascalCase name}}CreateProps.Content): ReactElement => {
+  return (
+    <FormContent<T> {...props} />
+  );
+}
+
+export default {{pascalCase name}}CreateContent;

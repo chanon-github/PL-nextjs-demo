@@ -1,0 +1,34 @@
+/**
+ *  {{> license }}
+ *  {{pascalCase name}}CreateProps - Model
+ */
+
+
+import type { FormInstance } from 'antd';
+import { Route } from 'antd/es/breadcrumb/Breadcrumb';
+import { ItemsFormProps } from 'src/components/common/form/form.main';
+
+export namespace {{pascalCase name}}CreateProps {
+export interface Container {
+    disableFields?: Array<string>;
+    form?: FormInstance<any>;
+    onSubmitForm?: (value: any) => void;
+    hiddenFields?: Array<string>;
+    buttonCategory?: 'register' | 'save' | 'edit';
+    routes: Array<Route>;
+  }
+
+  export interface Content {
+    title: string;
+    form: FormInstance<any>;
+    fields: (props: any) => Array<ItemsFormProps>;
+    disableFields?: Array<string>;
+    onSubmitForm: (value: any) => void;
+    onClickCancel: () => void;
+    onClickBack: () => void;
+    hiddenFields?: Array<string>;
+    buttonCategory?: 'register' | 'save' | 'edit';
+    routes: Array<Route>;
+  }
+
+}

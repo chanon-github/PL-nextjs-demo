@@ -1,0 +1,233 @@
+/**
+ *  Copyright (C) 2021, 2Smooth Digital Co. Ltd., all rights reserved
+ *  {{pascalCase name}}List - Container
+ */
+
+
+import { Form, Input, Popconfirm, Space, Tag, message } from 'antd';
+import { ColumnsType } from 'antd/es/table';
+import { useRouter } from 'next/router';
+import { MouseEvent, useEffect, useState } from 'react';
+
+import type { {{pascalCase name}}ListProps } from './{{kebabCase name}}-list.model';
+
+import { SearchOutlined } from '@ant-design/icons';
+import { Route } from 'antd/es/breadcrumb/Breadcrumb';
+import Link from 'next/link';
+import ListTable from 'src/components/merge/list-table/list-table.main';
+import { UseCMSProfessionalLineHook } from 'src/hooks/api/cms-professionalLineList';
+import { professionallinesapi } from 'src/services/rest-api';
+import { PersonnelApiApiAppPersonnelGetRequest } from 'src/services/rest-api/generated';
+import { CrudQuery } from 'src/utils/type/crud-types';
+
+const filters: Array<any> = [
+  {
+    key: 1,
+    label: 'ค้นหา',
+    name: 'search',
+    input: <Input placeholder="ค้นหา" prefix={<SearchOutlined />} />,
+    span: 20,
+    wrapSpan: 22,
+  },
+];
+
+const routes: Array<Route> = [
+  {
+    path: 'none',
+    breadcrumbName: 'สายวิชาชีพ',
+  },
+  {
+    path: '/professionalLine',
+    breadcrumbName: 'ข้อมูลสายวิชาชีพ',
+  },
+];
+
+const columns = (props: any): ColumnsType<any> => [
+  {
+    key: 'action',
+    dataIndex: 'action',
+    title: 'Action',
+    align: 'center',
+    width: 200,
+    render: (text: string, record: any) => {
+      return (
+        <Space size={'middle'}>
+          <Link href={`/professionalLine/view/${record?.id}`} 
+          >
+            {'รายละเอียด'}
+          </Link>
+          <Link href={`/professionalLine/${record?.id}`} 
+          >
+            {'แก้ไข'}
+          </Link>
+          <Popconfirm
+            title={'ลบ'}
+            description={'คุณแน่ใจที่จะลบหรือไหม'}
+            onConfirm={() => props?.onClickRemove(record.id)}
+            onCancel={props?.onCancelRemove}
+            okText={'Yes'}
+            cancelText={'No'}
+       
+          >
+            <a className="text-[#69b1ff] underline">{'ลบ'}</a>
+          </Popconfirm>
+        </Space>
+      );
+    },
+  },
+  {
+    key: 'code',
+    dataIndex: 'code',
+    title: 'รหัสวิชาชีพ',
+    align: 'center',
+    width: 200,
+  },
+  {
+    key: 'name',
+    dataIndex: 'name',
+    title: 'สายวิชาชีพ',
+    align: 'center',
+    width: 200,
+  },
+  {
+    key: 'isEnable',
+    dataIndex: 'isEnable',
+    title: 'สถานะ',
+    align: 'center',
+    width: 120,
+    render: (text: string, record: any) => {
+      return (
+        <Tag
+        >
+          Active
+        </Tag>
+      );
+    },
+  },
+];
+
+const defaultCrudQuery: CrudQuery<any> = {
+ 
+}
+
+const createLink = '{{kebabCase name}}/create'
+
+const {{pascalCase name}}ListContainer = (props: {{pascalCase name}}ListProps.Container) => {
+  /** Constants **/
+  /** Hook section */
+  const router = useRouter();
+  const [form] = Form.useForm();
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [crudQuery, setCrudQuery] = useState<PersonnelApiApiAppPersonnelGetRequest>();
+  const [selectedKeys, setSelectedKeys] = useState<Array<any>>([]);
+  const { data, refetch } = UseCMSProfessionalLineHook({ crudQuery: crudQuery });
+
+  useEffect(() => {}, []);
+
+  /** Functionality & API section */
+
+  const onClickSelectRow = (values: any) => {
+    setSelectedKeys(values);
+  };
+
+  const onClickAdd = () => {
+    //
+  };
+
+  const onClickEdit = (id: number) => {
+    //
+  };
+
+  const onClickRemove = async (id: number) => {
+    try {
+      console.log('id', id);
+      const professionalLinesResponse = await professionallinesapi.apiAppProfessionalLinesIdDelete({
+        id: id.toString(),
+      });
+      refetch();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onClickSelectedDelete = async () => {
+    try {
+      console.log('sel', selectedKeys);
+      const professionalLinesResponse = await professionallinesapi.apiAppProfessionalLinesMultipleDeleteDelete({
+        ids: selectedKeys,
+      });
+      refetch();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const onClickBack = () => {
+    router.push('/infoEmployee');
+  };
+
+  const onCancelRemove = (e?: MouseEvent<HTMLElement>) => {
+    console.log(e);
+    message.error('Click on No');
+  };
+  const onChangePage = (changedPage: number) => {
+    setPage(changedPage);
+  };
+  const onChangePageSize = (changedPageSize: number) => {
+    setPageSize(changedPageSize);
+  };
+
+  const onClearSearch = () => {
+    setCrudQuery({});
+    form.resetFields();
+  };
+
+  const onSubmitSearch = (values: any) => {
+    const payload: PersonnelApiApiAppPersonnelGetRequest = {
+      search: values?.search,
+    };
+    setCrudQuery(payload);
+    console.log('🚀 ~ onSubmitSearch ~ values:', values);
+  };
+
+  return (
+    <ListTable
+      title={ '{{pascalCase name}}' }
+      page={page}
+      pageSize={pageSize}
+      columns={columns({ onClickRemove, onCancelRemove })}
+      dataSource={data?.items}
+      createLink={createLink}
+      filters={filters}
+      form={form}
+      onSubmitSearch={onSubmitSearch}
+      onClearSearch={onClearSearch}
+      selectedDelete={onClickSelectedDelete}
+      // scopes={ filterScopes }
+      // setScopes={ setScopes }
+      key={'id'}
+      spanButton={24}
+      onClickAdd={onClickAdd}
+      onClickRemove={onClickRemove}
+      onChangePage={onChangePage}
+      onChangePageSize={onChangePageSize}
+      rowSelectable={true} // TODO: open mode row select
+      selectedKeys={selectedKeys} // TODO: select key
+      onSelectChange={onClickSelectRow} // TODO: onchange to set collect data
+      totalItems={data?.totalCount}
+      routes={routes}
+      isEnableShowSyncButton={false}
+      isEnableImportButton={true}
+      onClickBack={onClickBack}
+    />
+  );
+}
+
+
+{{pascalCase name}}ListContainer.getNextHeadProps = {
+  title: `${process.env.NEXT_PUBLIC_ENVIROMENT} | {{pascalCase name}}List`,
+  description: '{{pascalCase name}}List'
+}
+
+export default {{pascalCase name}}ListContainer;

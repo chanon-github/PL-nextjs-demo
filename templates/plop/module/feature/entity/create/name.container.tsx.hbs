@@ -1,0 +1,129 @@
+/**
+ *  Copyright (C) 2021, 2Smooth Digital Co. Ltd., all rights reserved
+ *  {{pascalCase name}}Create - Container
+ */
+
+import { Input, Switch, message} from 'antd';
+import { useForm } from 'antd/lib/form/Form';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
+
+import { Route } from 'antd/es/breadcrumb/Breadcrumb';
+import { AxiosResponse } from 'axios';
+import { professionallinesapi } from 'src/services/rest-api';
+import { ProfessionalLinesApiApiAppProfessionalLinesPostRequest } from 'src/services/rest-api/generated';
+import Content from './{{kebabCase name}}-create.content';
+import type { {{pascalCase name}}CreateProps } from './{{kebabCase name}}-create.model';
+
+const routes: Array<Route> = [
+  {
+    path: 'none',
+    breadcrumbName: 'บุคลากร',
+  },
+  {
+    path: '/professionalLine',
+    breadcrumbName: 'ข้อมูลสายวิชาชีพ',
+  },
+  {
+    path: '/professionalLine/create',
+    breadcrumbName: 'สร้างข้อมูลสายวิชาชีพ',
+    children: [],
+  },
+];
+
+const {{pascalCase name}}Form = (props: any): any => [
+  {
+    ข้อมูลสายวิชาชีพ: [
+      {
+        label: 'รหัสสายวิชาชีพ',
+        name: 'code',
+        input: <Input />,
+        rules: [{ required: true, message: 'กรุณาใส่รหัสสายวิชาชีพ' }],
+      },
+      {
+        label: 'สายวิชาชีพ',
+        name: 'name',
+        input: <Input />,
+        rules: [{ required: true, message: 'กรุณาใส่สายวิชาชีพ' }],
+      },
+      {
+        label: 'สถานะ',
+        name: 'isEnable',
+        boolean: true,
+        input: <Switch checkedChildren="Enable" unCheckedChildren="Disable" />,
+      },
+    ],
+  },
+];
+
+const hiddenFields: Array<string> = [];
+
+const {{pascalCase name}}CreateContainer = (props: {{pascalCase name}}CreateProps.Container) => {
+  /** Constants section */
+
+  /** Hook section */
+  const router = useRouter();
+  const [ form ] = useForm();
+
+  useEffect(() => {
+    const { isReady, route, query, back } = router;
+    if(isReady) {
+      
+    }
+  }, [ router ]);
+
+  /** Functionality section */
+  const onClickCancel = () => {
+    router.push('/professionalLine');
+  };
+
+  /** API section */
+  const onSubmitForm = async (values: any) => {
+    if (props?.onSubmitForm) {
+      props?.onSubmitForm(values);
+      return;
+    }
+
+    const payload: ProfessionalLinesApiApiAppProfessionalLinesPostRequest = {
+      pmsBeProfessionalLinesCreateUpdateProfessionalLineDto: {
+        code: values.code,
+        name: values.name,
+        isEnable: values.isEnable || false,
+      },
+    };
+
+    try {
+      const response = await professionallinesapi.apiAppProfessionalLinesPost({
+        pmsBeProfessionalLinesCreateUpdateProfessionalLineDto: payload.pmsBeProfessionalLinesCreateUpdateProfessionalLineDto,
+      });
+      message.success('สร้างข้อมูลสายชีพสำเร็จ');
+      router.replace('/professionalLine');
+    } catch (error) {
+      message.error('พบปัญหาสร้างข้อมูลสายชีพไม่สำเร็จ');
+      router.replace('/professionalLine');
+    }
+  };
+
+  return (
+    <Content
+      title={props?.form ? 'แก้ไขข้อมูลสายวิชาชีพ' : 'สร้างข้อมูลสายวิชาชีพ'}
+      form={props?.form || form}
+      fields={ {{pascalCase name}}Form }
+      disableFields={props?.disableFields}
+      hiddenFields={props?.hiddenFields || hiddenFields}
+      onSubmitForm={props?.onSubmitForm || onSubmitForm}
+      onClickCancel={onClickCancel}
+      onClickBack={onClickCancel}
+      buttonCategory={props?.buttonCategory || 'save'}
+      routes={props.routes || routes}
+    />
+  );
+}
+
+
+{{pascalCase name}}CreateContainer.getNextHeadProps = {
+  title: `${process.env.NEXT_PUBLIC_ENVIROMENT} | {{pascalCase name}}Create`,
+  description: '{{pascalCase name}}Create'
+}
+
+export default {{pascalCase name}}CreateContainer;

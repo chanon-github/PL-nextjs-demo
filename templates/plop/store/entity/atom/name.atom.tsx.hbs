@@ -1,0 +1,16 @@
+/**
+ *  {{> license }}
+ *  Recoil {{pascalCase name}} - Atom
+ */
+
+import { atom } from 'recoil';
+import { rehydrateEffect, changeEffect } from './{{kebabCase name}}.effects';
+import type { {{pascalCase name}}Store } from './{{kebabCase name}}.model';
+
+const defaultValue: {{pascalCase name}}Store.AtomData = null;
+
+export const {{camelCase name}}Atom = atom<{{pascalCase name}}Store.AtomData>({
+  key: 'recoil-atom-{{kebabCase entity}}-{{kebabCase name}}',
+  default: defaultValue,
+  effects: [ rehydrateEffect, changeEffect ]
+});

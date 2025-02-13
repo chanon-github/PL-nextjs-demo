@@ -1,0 +1,19 @@
+/**
+ *  {{> license }}
+ *  {{pascalCase name}} - Content
+ */
+
+import type { ReactElement } from 'react';
+
+import type { {{pascalCase name}}Props } from './{{kebabCase name}}.model';
+{{#if withStyle}}
+// import presets from './{{kebabCase name}}.module.css';
+{{/if}}
+
+const {{pascalCase name}}Content = (props: {{pascalCase name}}Props.Content): ReactElement => {
+  return (
+    <div />
+  );
+}
+
+export default {{pascalCase name}}Content;

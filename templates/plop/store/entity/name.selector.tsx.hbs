@@ -1,0 +1,22 @@
+/**
+ *  {{> license }}
+ *  Recoil {{pascalCase name}} - Selector
+ */
+
+import { selector } from 'recoil';
+
+import {} from './{{kebabCase name}}';
+import type {} from './{{kebabCase name}}';
+
+const baseKey = 'recoil-selector-{{kebabCase name}}';
+
+const getSelf = selector<null>({
+  key: `${ baseKey }-selector-name`,
+  get: ({ get }) => { return null; }
+});
+
+export const {{camelCase entity}}Selector = {
+  getSelf
+}
+
+export default {{camelCase entity}}Selector;

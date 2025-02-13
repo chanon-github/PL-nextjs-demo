@@ -1,0 +1,79 @@
+/**
+ *  Copyright (C) 2021, 2Smooth Digital Co. Ltd., all rights reserved
+ *  {{pascalCase name}}List - Content
+ */
+
+import type { ReactElement } from 'react';
+import React from 'react';
+import { Button, Form, Upload, Col, Row } from 'antd';
+import Link from 'next/link';
+
+import { {{pascalCase name}}ListProps } from './{{kebabCase name}}-list.model';
+import { FormItemProps } from 'src/components/form/form.model';
+import { BackButton } from 'src/components/button/back';
+import { FormContent } from 'src/components/form/form.main';
+import { InputSearch, Table } from 'src/components';
+
+const {{pascalCase name}}ListContent = (props: {{pascalCase name}}ListProps.Content): ReactElement => {
+  return (
+    <div className='m-6 p-4 bg-white rounded-sm shadow-md'> 
+      <Row gutter={[ 8, 24 ]} align={'middle'} justify={'center'}>
+        <Col span={24}>
+          { renderFilters(props) }
+        </Col>
+        <Col span={24}>
+          { renderAction(props) }
+        </Col>
+        <Col span={24}>
+          { renderTable(props) }
+        </Col>
+      </Row>
+    </div>
+  );
+}
+
+const renderFilters = (props: {{pascalCase name}}ListProps.Content): ReactElement => {
+  return (
+    <Row align={'middle'} justify={'space-between'}>
+      <Col span={24}>
+        <InputSearch
+          name={'search'}
+          scopes={ props.scopes }
+          onSubmit={ props.onSearch }
+        />
+      </Col>
+      {/* <Col></Col> */}
+    </Row>
+  );
+}
+
+const renderAction = (props: {{pascalCase name}}ListProps.Content) => {
+  return (
+    <Row align={'middle'} justify={'end'} gutter={[8, 8]}>
+      <Col>
+        <Button>
+          <Link href={ props.createLink }>
+            Create
+          </Link>
+        </Button>
+      </Col>
+    </Row>
+  )
+}
+
+const renderTable = (props: {{pascalCase name}}ListProps.Content): ReactElement => {
+  return (
+    <Table
+      rowKey={'id'}
+      columns={props.columns || []}
+      dataSource={props.dataSource || []}
+      page={ props.page }
+      pageSize={ props.pageSize }
+      total={0}
+      onChangePage={ props.onChangePage }
+      onChangePageSize={ props.onChangePageSize }
+    />
+  );
+}
+
+export default {{pascalCase name}}ListContent;

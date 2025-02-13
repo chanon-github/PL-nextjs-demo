@@ -1,0 +1,19 @@
+import { CrudMode } from "@/utils/type/crud-types";
+
+export interface {{pascalCase name}}CrudContainerProps {
+    // Any additional props for the container
+}
+
+export interface {{pascalCase name}}CrudContentProps extends {{pascalCase name}}CrudContentState { 
+   
+    onSubmitForm: (values: {{pascalCase name}}CrudContentForm) => void;
+    onClickBack: () => void;
+}
+
+export interface  {{pascalCase name}}CrudContentState{
+    mode: CrudMode;
+}
+
+export interface {{pascalCase name}}CrudContentForm {
+    
+}

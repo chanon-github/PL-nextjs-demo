@@ -1,0 +1,27 @@
+/**
+ *  {{> license }}
+ *  {{pascalCase name}} - Model
+ */
+
+  export interface {{pascalCase name}}ContainerProps {}
+
+  export interface {{pascalCase name}}ContentProps extends {{pascalCase name}}State {
+    onChangePage: (page: number, pageSize: number) => void;
+    onChangePageSize: (param : {pageSize: number}) => void;
+    onClickToAdd: () => void;
+    onClikToView: (param: {id: number}) => void;
+    onClickRemove: (param : {id: number}) => void;
+    onClickToEdit: (param : {id: number}) => void;
+    onSubmitSerach: (value: FormSearch) => void;
+  }
+
+  export interface {{pascalCase name}}State {
+    page: number;
+    pageSize: number;
+  }
+
+  
+  export interface FormSearch{
+    search: string
+  }
+  

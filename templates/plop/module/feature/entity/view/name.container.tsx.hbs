@@ -1,0 +1,121 @@
+/**
+ *  Copyright (C) 2021, 2Smooth Digital Co. Ltd., all rights reserved
+ *  {{pascalCase name}}List - Container
+ */
+
+import { FormItemProps, message } from 'antd';
+import { ColumnsType } from 'antd/es/table';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import type { {{pascalCase name}}ListProps } from './{{kebabCase name}}-view.model';
+
+import { Route } from 'antd/es/breadcrumb/Breadcrumb';
+import ViewAsType from 'src/components/common/view-as-type/view-type-main';
+import { professionallinesapi } from 'src/services/rest-api';
+import { CrudQuery } from 'src/utils/type/crud-types';
+
+const defaultCrudQuery: CrudQuery<any> = {};
+
+const tables = (props: any) => [
+  {
+    ข้อมูลสายวิชาชีพ: [
+      {
+        key: 'code',
+        dataIndex: 'code',
+        name: 'รหัสสายวิชาชีพ',
+        // label: 'รหัสสายวิชาชีพ',
+        value: props?.data?.code || '',
+      },
+      {
+        key: 'name',
+        dataIndex: 'name',
+        name: 'สายวิชาชีพ',
+        value: props?.data?.name || '',
+      },
+      {
+        key: 'isEnable',
+        dataIndex: 'isEnable',
+        name: 'สถานะ',
+        value: props?.data ? props.data.isEnable.toString() : '',
+      },
+    ],
+  },
+];
+
+const routes = (props: any): Array<Route> => [
+  {
+    path: 'none',
+    breadcrumbName: 'บุคลากร',
+  },
+  {
+    path: '/professionalLine',
+    breadcrumbName: 'ข้อมูลสายวิชาชีพ',
+  },
+  {
+    path: `/professionalLine/view/${props.id}`,
+    breadcrumbName: 'รายละเอียดสายวิชาชีพ',
+    children: [],
+  },
+];
+
+const editLink = (id: string) => `/professionalLine/${id}`;
+
+const {{pascalCase name}}ListContainer = (props: {{pascalCase name}}ListProps.Container) => {
+ /** Constants **/
+  /** Hook section */
+  const router = useRouter();
+  const [id, setId] = useState<string>('');
+  const [data, setDataSource] = useState<any>();
+  useEffect(() => {
+    const { isReady, route, query, back } = router;
+    if (isReady) {
+      const { id } = query as { id: string };
+      if (id) {
+        setId(id);
+      }
+    }
+  }, [router]);
+
+  useEffect(() => {
+    if (id) {
+      callService();
+    }
+  }, [id]);
+
+  /** Functionality section */
+  const onClickBack = () => {
+    router.push('/professionalLine');
+  };
+
+  /** API section */
+  const callService = async () => {
+    try {
+      const response = await professionallinesapi.apiAppProfessionalLinesIdGet({
+        id: id,
+      });
+      let data_response = response.data;
+      console.log(data_response);
+      setDataSource(data_response);
+    } catch (error) {
+      message.error('error');
+    }
+  };
+
+  return (
+    <ViewAsType
+     viewColumnList={() => tables({ data })}
+      title={'รายละเอียดสายวิชาชีพ'}
+      onClickBack={onClickBack}
+      editLink={editLink(id)}
+      routes={routes({ id: id })}
+    />
+  );
+}
+
+
+{{pascalCase name}}ListContainer.getNextHeadProps = {
+  title: `${process.env.NEXT_PUBLIC_ENVIROMENT} | {{pascalCase name}}List`,
+  description: '{{pascalCase name}}List'
+}
+
+export default {{pascalCase name}}ListContainer;

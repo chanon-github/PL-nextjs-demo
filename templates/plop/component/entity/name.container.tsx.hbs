@@ -1,0 +1,39 @@
+/**
+ *  {{> license }}
+ *  {{pascalCase name}} - {{#if (isEquals type "FULL")}}Container{{else}}Main{{/if}}
+ */
+
+import {
+  type FC,
+  type ReactElement,
+  useEffect
+} from 'react';
+
+{{#if (isEquals type "FULL") ~}}
+import Content from './{{kebabCase name}}.content';
+{{/if}}
+import type { {{pascalCase name}}Props } from './{{kebabCase name}}.model';
+{{#if withService ~}}// import {} from './{{kebabCase name}}.service';{{/if}}
+{{#if (isEquals type "MINIMAL") ~}}
+  {{#if withStyle ~}}
+// import {} from './{{kebabCase name}}.presets';
+  {{/if}}
+{{/if}}
+
+const {{pascalCase name}}{{#if (isEquals type "FULL")}}Container{{else}}Main{{/if}}: FC<{{pascalCase name}}Props{{#if (isEquals type "FULL")}}.Container{{else}}.Main{{/if}}> = (props: {{pascalCase name}}Props{{#if (isEquals type "FULL")}}.Container{{else}}.Main{{/if}}): ReactElement => {
+  /** Hook section */
+
+  useEffect(() => {}, []);
+
+  /** Functionality section */
+
+  return (
+    {{#if (isEquals type "FULL")}}
+    <Content />
+    {{else}}
+    <div />
+    {{/if}}
+  );
+}
+
+export default {{pascalCase name}}{{#if (isEquals type "FULL")}}Container{{else}}Main{{/if}};

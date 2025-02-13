@@ -1,0 +1,13 @@
+/**
+ *  LayoutHeader - CSS in JS
+ */
+
+/** Define styles */
+.layoutHeader {
+  position: relative;
+  width: 100%;
+  height: unset;
+  padding: unset;
+  padding-bottom: 20px;
+  background-color: transparent;
+}

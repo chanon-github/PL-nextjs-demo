@@ -1,0 +1,125 @@
+/**
+ *  Copyright (C) 2021, 2Smooth Digital Co. Ltd., all rights reserved
+ *  BannerEdit - Container
+ */
+
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+
+import { message } from 'antd';
+import { Route } from 'antd/es/breadcrumb/Breadcrumb';
+import { useForm } from 'antd/lib/form/Form';
+import { AxiosResponse } from 'axios';
+import { professionallinesapi } from 'src/services/rest-api';
+import { ProfessionalLinesApiApiAppProfessionalLinesIdPutRequest } from 'src/services/rest-api/generated';
+import { {{pascalCase name}}Create } from '../create';
+
+const disableFields: Array<string> = []
+const hiddenFields: Array<string> = [];
+
+const routes = (props: any): Array<Route> => [
+  {
+    path: 'none',
+    breadcrumbName: 'บุคลากร',
+  },
+  {
+    path: '/professionalLine',
+    breadcrumbName: 'ข้อมูลสายวิชาชีพ',
+  },
+  {
+    path: `/professionalLine/${props.id}`,
+    breadcrumbName: 'แก้ไขสายวิชาชีพ',
+    children: [],
+  },
+];
+
+const {{pascalCase name}}EditContainer = () => {
+
+  /** Hook section */
+  const router = useRouter();
+  const [form] = useForm();
+  const [id, setId] = useState<string>('');
+  const [data, setDataSource] = useState<any>();
+  useEffect(() => {
+    const { isReady, route, query, back } = router;
+    if (isReady) {
+      const { id } = query as { id: string };
+      if (id) {
+        setId(id);
+      }
+    }
+  }, [router]);
+
+  useEffect(() => {
+    if (id) {
+      callService();
+    }
+  }, [id]);
+
+  /** Functionality section */
+  /** API section */
+  const callService = async () => {
+    try {
+      const response = await professionallinesapi.apiAppProfessionalLinesIdGet({
+        id: id,
+      });
+      let data_response = response.data;
+      form.setFieldsValue({
+        ...data_response,
+      });
+
+      // setDataSource(data_response);
+    } catch (error) {
+      message.error('error');
+    }
+  };
+
+  console.log('form.getFieldsValue()', form.getFieldsValue());
+
+  const onSubmitForm = (values: any) => {
+    const payload: ProfessionalLinesApiApiAppProfessionalLinesIdPutRequest = {
+      id: id,
+      pmsBeProfessionalLinesCreateUpdateProfessionalLineDto: {
+        code: values.code,
+        name: values.name,
+        isEnable: values.isEnable || false,
+      },
+    };
+
+    console.log(`onSubmitForm`, payload);
+
+    professionallinesapi
+      .apiAppProfessionalLinesIdPut(payload)
+      .then((res: AxiosResponse<any>) => {
+        console.log('res', res);
+        // return res.data;
+      })
+      .then((data) => {
+        router.replace('/professionalLine');
+      });
+
+    console.log(`Update`);
+    console.log(values);
+  };
+
+
+  return (
+    <{{pascalCase name}}Create
+     form={form}
+      disableFields={disableFields}
+      hiddenFields={hiddenFields}
+      onSubmitForm={onSubmitForm}
+      buttonCategory={'edit'}
+      routes={routes({ id: id })}
+    />
+  );
+}
+
+
+{{pascalCase name}}EditContainer.getNextHeadProps = {
+  title: `${process.env.NEXT_PUBLIC_ENVIROMENT} | {{pascalCase name}}Edit`,
+  description: '{{pascalCase name}}Edit'
+}
+
+export default {{pascalCase name}}EditContainer;
+export { {{pascalCase name}}EditContainer };

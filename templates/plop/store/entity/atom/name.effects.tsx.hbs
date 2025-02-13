@@ -1,0 +1,41 @@
+/**
+ *  {{> license }}
+ *  Recoil {{pascalCase name}} - Effects
+ */
+
+import type { AtomEffect } from 'recoil';
+import {
+  getSessionItem,
+  setSessionItem,
+  removeSessionItem
+} from 'src/services/web-session-storage';
+
+import type { {{pascalCase name}}Store } from './{{kebabCase name}}.model';
+
+export const rehydrateEffect: AtomEffect<{{pascalCase name}}Store.AtomData> = ({ trigger, setSelf }) => {
+  if(trigger === 'get') {
+    /** Re-Initialization process */
+    const _storeKey: {{pascalCase name}}Store.InstanceKey = 'recoil-store:{{kebabCase entity}}:{{kebabCase name}}';
+    const _persistedData = getSessionItem<{{pascalCase name}}Store.AtomData>({ name: _storeKey });
+    if(_persistedData && Object.keys(_persistedData).length > 0) {
+      // console.debug('[{{pascalCase name}}Atom::RehydrateEffect]', _persistedData);
+      setSelf(_persistedData);
+    }
+  }
+}
+
+export const changeEffect: AtomEffect<{{pascalCase name}}Store.AtomData> = ({ onSet }) => {
+  onSet((newValue, _, isReset) => {
+    /** Subscribe to atom changes, setSelf will not trigger `onSet` */
+    if(isReset) {
+      const _storeKey: {{pascalCase name}}Store.InstanceKey = 'recoil-store:{{kebabCase entity}}:{{kebabCase name}}';
+      removeSessionItem({ name: _storeKey });
+      // console.debug('[{{pascalCase name}}Atom::ChangeEffect] >> RESET', { success: _isSuccess });
+    }
+    else {
+      const _storeKey: {{pascalCase name}}Store.InstanceKey = 'recoil-store:{{kebabCase entity}}:{{kebabCase name}}';
+      setSessionItem<{{pascalCase name}}Store.AtomData>({ name: _storeKey, value: newValue });
+      // console.debug('[{{pascalCase name}}Atom::ChangeEffect] >> UPDATE', { success: _isSuccess, value: newValue });
+    }
+  });
+}

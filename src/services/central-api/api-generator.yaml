@@ -1,0 +1,19 @@
+########################################################
+### Open API Config file
+### - Using root path perspective
+########################################################
+
+generatorName: typescript-axios
+outputDir: ./src/services/central-api/generated
+inputSpec: https://pl-central-api.antz-studio.co.th/swagger/v1/swagger.json
+
+# inputSpec: http://172.31.238.121/scrap-reserv-api/swagger/v1/swagger.json
+#templateDir: ./templates/api/open-api-modules
+
+apiPackage: "entity"
+modelPackage: "model"
+enumPropertyNaming: "UPPERCASE"
+stringEnums: false
+supportsES6: true
+useSingleRequestParameter: true
+withSeparateModelsAndApi: true

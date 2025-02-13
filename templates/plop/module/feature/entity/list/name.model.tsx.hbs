@@ -1,0 +1,29 @@
+/**
+ *  Copyright (C) 2021, 2Smooth Digital Co. Ltd., all rights reserved
+ *  {{pascalCase name}}ListProps - Model
+ */
+
+import { ColumnsType } from 'antd/es/table';
+
+
+export namespace {{pascalCase name}}ListProps {
+
+  export interface Container {
+   
+  }
+
+  export interface Content extends State {
+    dataSource: Array<any>
+    columns: ColumnsType<any>
+    createLink: string
+    onClickAdd: () => void;
+    onClickRemove: (id: number) => void;
+    onChangePage: (changedPage: number) => void;
+    onChangePageSize: (changedPageSize: number) => void;
+  }
+
+  export interface State {
+    page: number;
+    pageSize: number;
+  }
+}

@@ -1,0 +1,19 @@
+
+.layoutSidebar {
+    height: 100vh; 
+    overflow: auto;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    bottom: 0px ;  
+    opacity: 0.9;  
+  }
+
+  .shadowLogoLayoutsidebar {
+    height: 50px;
+    overflow: auto;
+    background-color: #363636;
+  }
+
+
+  

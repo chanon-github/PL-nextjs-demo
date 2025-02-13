@@ -1,0 +1,200 @@
+/**
+ *  {{> license }}
+ *  {{pascalCase name}} - Container
+ */
+
+import { type ReactElement, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+//import { APP_NAME } from 'src/environments';
+import {
+    Card,
+    Row,
+    Col,
+    Typography,
+    Button,
+    Checkbox,
+    Radio,
+    Input,
+    Tooltip,
+    Popconfirm,
+    Space,
+    Table as AntTable,
+    Form
+} from 'antd';
+import type { NextPageWithLayout } from '@/pages/_app';
+import useApi from '@/hooks/api/use-api';
+{{!-- import { getSessionItem } from 'src/services/web-session-storage'; --}}
+
+{{!-- import Content from './{{kebabCase name}}.content'; --}}
+import type { {{pascalCase name}}ContentProps, {{pascalCase name}}ContainerProps, FormSearch } from './index.model';
+{{#if withService ~}}
+// import {} from './{{kebabCase name}}.service';
+{{/if}}
+
+const {{pascalCase name}}ListContainer: NextPageWithLayout<{{pascalCase name}}ContainerProps> = ( props: {{pascalCase name}}ContainerProps ): ReactElement => {
+  /** Hook section */
+ const Router = useRouter();
+  
+  const [ page, setPage ] = useState(1);
+  const [ pageSize, setPageSize ] = useState(10);
+
+  //** Hook for call api Example
+  // const { data: stocksData, loading: loadingStocks, error: stocksError, execute: fetchStocks, refetch } = 
+  // useApi<IGetActiveStockForEIpoResultBaseOutput, StockApiStockGetActiveStockForEIpoPostRequest>(
+  //     stockapi, "stockGetActiveStockForEIpoPost",
+  // );
+  useEffect(() => {
+    
+  }, []);
+
+  
+  /** Functionality section */
+
+  
+    const onChangePage = ( page: number, pageSize: number) => {
+        setPage(page);
+        setPageSize(pageSize);
+    };
+
+    const onChangePageSize = (param: {pageSize: number}) => {
+        setPageSize(pageSize);
+    };
+
+    const onClickToAdd = () => {
+      Router.push('/{{name}}/add');
+    }
+
+    const onClickToEdit = (param: {id: number}) => {
+      Router.push(`/{{name}}/edit/${param.id}`);
+    }
+
+    const onClickRemove = (param: {id: number}) => {
+        
+    }
+
+    const onClikToView = (param: {id: number}) => {
+       Router.push(`/{{name}}/view/${param.id}`);
+    }
+
+    const onSubmitSerach = (value: FormSearch) =>{
+      console.log(value);
+    }
+
+    const contentProps: {{pascalCase name}}ContentProps = {
+        page,
+        pageSize,
+        onChangePage,
+        onChangePageSize,
+        onClickToEdit,
+        onClikToView,
+        onClickRemove,
+        onClickToAdd,
+        onSubmitSerach
+    };
+
+   
+
+
+
+  return (
+    <>
+        <Row gutter={[ 8, 16 ]}>
+          <Col span={24}>
+              <Card  
+                className={'shadow-effect'} 
+                title={<Typography.Title type={'secondary'} level={3}>test</Typography.Title>}
+                {{!-- headStyle={{ padding: 24 }}
+                bodyStyle={{ padding: 24 }} --}}
+              >
+                  <Row gutter={[ 8, 8 ]}>
+                      <Col span={24}>
+                          {renderOptions(contentProps)}
+                      </Col>
+                      <Col span={24}>
+                          {/* {props.stockId !==  0  &&  renderTable(props)} */}
+                          {renderTable(contentProps)}
+                      </Col>
+                  </Row>
+              </Card>
+          </Col>
+        </Row>
+    </>
+  );
+}
+
+const renderOptions = (props: {{pascalCase name}}ContentProps): ReactElement => {
+  return (
+    <>
+      <Row align={'middle'} justify={'space-between'}>
+        <Form onFinish={props.onSubmitSerach}>
+          <Col>
+            <Form.Item
+              name="search"
+            >
+              <Input.Search/>
+            </Form.Item>
+          </Col>
+        </Form>
+      
+        <Col>
+          <Button type={'default'} onClick={props.onClickToAdd}>Add</Button>
+        </Col>
+      </Row>
+    </>
+  )
+}
+
+const renderTable = (props: {{pascalCase name}}ContentProps): ReactElement => {
+  return(
+    <>
+      <AntTable
+        rowKey={'id'}
+        columns={
+          [
+            {
+              key: "no",
+              dataIndex: "no",
+              title: "ลำดับ",
+            },
+            {
+              key: "actions",
+              title: "เพิ่มเติม",
+              render: () => {
+                return (
+                  <Space>
+                    <Button type={'default'} onClick={() => props.onClickToEdit({id: 1})}>Edit</Button>
+                    <Button type={'default'} onClick={() => props.onClikToView({id: 1})}>View</Button>
+                    <Button type={'default'} onClick={() => props.onClickRemove({id: 1})}>Remove</Button>
+                  </Space>
+                )
+              }
+            }
+          ]
+        }
+        dataSource={[{id: 1, no: 1}]}
+    
+      />
+    </>
+  )
+}
+
+{{!-- {{#if (isEquals category "LOGIN")}}
+{{pascalCase name}}Container.getLayout = (page) => (
+  <Layout>
+    <LayoutBody>{ page }</LayoutBody>
+  </Layout>
+);
+{{/if}} --}}
+
+{{!-- {{pascalCase name}}ListContainer.getNextHeadProps = {
+  title: `${ APP_NAME } | {{pascalCase name}}`,
+  description: '{{pascalCase name}}'
+} --}}
+
+// {{pascalCase name}}ListContainer.getLayout = (page: ReactElement) => (
+//   <>
+//       { page }
+//   </> 
+// )
+
+export default {{pascalCase name}}ListContainer;

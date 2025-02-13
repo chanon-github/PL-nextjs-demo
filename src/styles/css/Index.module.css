@@ -1,0 +1,94 @@
+.container {
+    min-height: 100vh;
+    padding: 0 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    /*
+    background: linear-gradient(115.21deg, #11285C 0%, 
+      rgba(115, 127, 185, 0.783073) 50.88%, 
+      rgba(199, 204, 227, 0.51) 105.05%);
+    */
+}
+
+.main {
+    padding: 5rem 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #313332;
+}
+
+.title{
+    color: white;
+    font-weight: 700;
+}
+
+.login-container{
+    /* Auto Layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  
+    position: static;
+    width: 579px;
+    min-height: 398.24px;
+    left: 430px;
+    top: 315.88px;
+  
+    /* White */
+    background: #FFFFFF;
+  
+    /* Card-shadow */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+  
+    /* Inside Auto Layout */
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+    margin: 40px 0px;
+}
+
+.formContanier{
+    width: 100%;
+}
+
+.logoStyle{
+    width: 400px;
+    min-height: 103px;
+}
+
+.line{
+    position: absolute;
+    z-index: -1;
+    width: calc( 100vw + 100% );
+    height: 11px;
+    /*
+    left: -2.49px;
+    top: 259.86px;
+    */
+    /* Secondary */
+    background: #43AD9E;
+    transform: rotate(21deg);
+}
+
+.bg{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -2;
+    background: linear-gradient(201deg, #F8FAFC 50%, white 50%);
+}
+
+.container-bg{
+    padding: 60px;
+    background: linear-gradient(201deg, #F8FAFC 50%, white 50%);
+}

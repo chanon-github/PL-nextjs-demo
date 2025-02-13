@@ -1,0 +1,19 @@
+/**
+ *  {{> license }}
+ *  {{pascalCase name}} - Main
+ */
+
+import { useEffect, useState } from 'react';
+import type { {{pascalCase name}}Hook } from './{{kebabCase name}}.model';
+
+export const use{{pascalCase name}} = (args: {{pascalCase name}}Hook.Arguments): {{pascalCase name}}Hook.Result => {
+  const [ someState, setSomeState ] = useState(null);
+
+  useEffect(() => {
+    return (() => {
+      /** Clean up */
+    });
+  }, []);
+
+  return someState;
+}

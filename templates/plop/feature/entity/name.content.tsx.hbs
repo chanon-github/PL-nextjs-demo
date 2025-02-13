@@ -1,0 +1,137 @@
+/**
+ *  {{> license }}
+ *  {{pascalCase name}} - Content
+ */
+
+import type { ReactElement } from 'react';
+{{#if (isEquals category "LOGIN")}}
+import {
+  Row,
+  Col,
+  Card,
+  Form,
+  Input,
+  Spin,
+  Typography,
+  Button
+} from 'antd';
+{{/if}}
+{{#if (isEquals type "LIST")}}
+import {
+  Row,
+  Col
+} from 'antd';
+
+import { InputSearch, Table } from 'src/components';
+{{/if}}
+
+import { {{pascalCase name}}Props } from './{{kebabCase name}}.model';
+{{#if withStyle}}
+// import presets from './{{kebabCase name}}.module.css';
+{{/if}}
+
+const {{pascalCase name}}Content = (props: {{pascalCase name}}Props.Content): ReactElement => {
+  return (
+    {{#if (isEquals type "LIST")}}
+    <Row gutter={[ 8, 24 ]} align={'middle'} justify={'center'}>
+      <Col span={24}>
+        { renderOptions(props) }
+      </Col>
+      <Col span={24}>
+        { renderTable(props) }
+      </Col>
+    </Row>
+    {{else}}
+      {{#if (isEquals category "LOGIN")}}
+    <div className={ presets.pageWrapper }>
+      <Card style=\{{ boxShadow: '0px 0px 24px rgba(0, 0, 0, 0.25)' }}>
+        <Spin spinning={ false }>
+          { renderLoginForm(props) }
+        </Spin>
+      </Card>
+    </div>
+      {{else}}
+    <div></div>
+      {{/if}}
+    {{/if}}
+  );
+}
+
+{{#if (isEquals category "LOGIN")}}
+const renderLoginForm = (props: {{pascalCase name}}Props.Content): ReactElement => {
+  return (
+    <Form
+      form={ props.loginForm }
+      layout={'vertical'}
+      initialValues=\{{}}
+      onFinish={ props.onSubmitForm }
+    >
+      <Row gutter={[ 24, 24 ]} align={'middle'} justify={'center'}>
+        <Col>
+          <Typography.Title level={3}>
+            {/* Form Title */}
+          </Typography.Title>
+        </Col>
+        <Col span={24}>
+          <Row gutter={[ 8, 8 ]} align={'middle'} justify={'center'}>
+            <Col span={24}>
+              <Form.Item
+                name={'samplefield'}
+                label={'SampleField'}
+                rules={[
+                  { required: true, message: 'This field is required' }
+                ]}
+              >
+                <Input placeholder={'SampleField'} />
+              </Form.Item>
+            </Col>
+            <Col span={24}>
+              <Button block
+                type={'primary'}
+                size={'large'}
+                htmlType={'submit'}
+              >
+                Submit
+              </Button>
+            </Col>
+          </Row>
+        </Col>
+      </Row>
+    </Form>
+  );
+}
+
+{{/if}}
+{{#if (isEquals type "LIST")}}
+const renderOptions = (props: {{pascalCase name}}Props.Content): ReactElement => {
+  return (
+    <Row align={'middle'} justify={'space-between'}>
+      <Col span={24}>
+        <InputSearch
+          name={'search'}
+          scopes={[]}
+          onSubmit={ props.onSearch }
+        />
+      </Col>
+      {/* <Col></Col> */}
+    </Row>
+  );
+}
+
+const renderTable = (props: {{pascalCase name}}Props.Content): ReactElement => {
+  return (
+    <Table
+      rowKey={'id'}
+      columns={[]}
+      dataSource={[]}
+      page={ props.page }
+      pageSize={ props.pageSize }
+      total={0}
+      onChangePage={ props.onChangePage }
+      onChangePageSize={ props.onChangePageSize }
+    />
+  );
+}
+
+{{/if}}
+export default {{pascalCase name}}Content;

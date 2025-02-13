@@ -1,0 +1,14 @@
+/**
+ *  {{> license }}
+ *  Spec - {{pascalCase name}} Feature
+ */
+
+import { expect } from '@playwright/test';
+import { test } from '../e2e.fixture';
+
+test.describe('feature::{{kebabCase name}}', () => {
+  /** Test Group Definition */
+  test('test-module-name', async ({ page, port }) => {
+    const basePath = `http://localhost:${ port }`;
+  });
+});
